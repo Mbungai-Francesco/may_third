@@ -1,10 +1,11 @@
+import { log } from "node:console";
 import { db } from "../lib/db";
 import { Request, Response } from "express";
 
 export const createWish = async (req: Request, res: Response) => {
 	try {
 		const { friendId, town, title, content, date, time } = req.body;
-		const userId : string = req.user.id;
+		const userId: string = req.user.userId;
 
 		if (!title || !content || !date || !time) {
 			return res
@@ -47,9 +48,9 @@ export const getWishes = async (req: Request, res: Response) => {
 			orderBy: { date: "desc" },
 		});
 
-		if (!wishes || wishes.length === 0) {
-			return res.status(404).json({ message: "No wishes found" });
-		}
+		// if (!wishes || wishes.length === 0) {
+		// 	return res.status(404).json({ message: "No wishes found" });
+		// }
 
 		return res.status(200).json({ message: "Wishes found", data: wishes });
 	} catch (error: any) {
@@ -74,9 +75,8 @@ export const getWish = async (req: Request, res: Response) => {
 		if (!wish || wish.deleted) {
 			return res.status(404).json({ message: "Wish not found" });
 		}
-
-		// mark as opened if the friend is reading it
-		if (req.user.id === wish.friendId && !wish.opened) {
+		// mark as opened if the friend is reading it		
+		if (req.user.userId === wish.friendId && !wish.opened) {
 			await db.wish.update({ where: { id }, data: { opened: true } });
 		}
 
@@ -90,7 +90,7 @@ export const getWish = async (req: Request, res: Response) => {
 // get all wishes authored by logged in user
 export const getMyWishes = async (req: Request, res: Response) => {
 	try {
-		const userId : string = req.user.id;
+		const userId : string = req.user.userId;
 
 		const wishes = await db.wish.findMany({
 			where: { userId, deleted: false },
@@ -110,7 +110,7 @@ export const getMyWishes = async (req: Request, res: Response) => {
 // get all wishes received by logged in user
 export const getReceivedWishes = async (req: Request, res: Response) => {
 	try {
-		const friendId : string = req.user.id;
+		const friendId : string = req.user.userId;
 
 		const wishes = await db.wish.findMany({
 			where: { friendId, deleted: false },
@@ -130,7 +130,7 @@ export const getReceivedWishes = async (req: Request, res: Response) => {
 export const updateWish = async (req: Request, res: Response) => {
 	try {
 		const id = Array.isArray(req.params.id) ? req.params.id[0] : req.params.id;
-		const userId : string = req.user.id;
+		const userId : string = req.user.userId;
 		const { town, title, content, date, time, friendId } = req.body;
 
 		const wish = await db.wish.findUnique({ where: { id } });
@@ -172,7 +172,7 @@ export const updateWish = async (req: Request, res: Response) => {
 export const deleteWish = async (req: Request, res: Response) => {
 	try {
 		const id = Array.isArray(req.params.id) ? req.params.id[0] : req.params.id;
-		const userId : string = req.user.id;
+		const userId : string = req.user.userId;
 
 		const wish = await db.wish.findUnique({ where: { id } });
 
@@ -200,7 +200,7 @@ export const reactToWish = async (req: Request, res: Response) => {
 	try {
 		const id = Array.isArray(req.params.id) ? req.params.id[0] : req.params.id;
 		const { reaction } = req.body;
-		const userId : string = req.user.id;
+		const userId : string = req.user.userId;
 
 		const wish = await db.wish.findUnique({ where: { id } });
 

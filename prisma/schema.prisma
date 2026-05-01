@@ -42,9 +42,9 @@ model User {
 model Wish {
   id          String @id @default(uuid()) @db.Uuid
   user        User?   @relation("AuthoredWishes",fields: [userId], references: [id], onDelete: Cascade)
-  userId      String  @unique @db.Uuid
+  userId      String  @db.Uuid
   friend      User?   @relation("ReceivedWishes",fields: [friendId], references: [id], onDelete: SetNull)
-  friendId    String? @unique @db.Uuid
+  friendId    String? @db.Uuid
   town        String?
   title       String  
   content     String

@@ -1,6 +1,6 @@
 import cloudinary from "./cloudinary";
 
-export async function uploadImage(
+export async function uploadImageToCloud(
 	file: Buffer,
 	folder = "wishes",
 ): Promise<string> {
