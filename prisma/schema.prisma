@@ -1,0 +1,57 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+enum Role {
+  USER
+  ADMIN
+  CELEBRANT
+}
+
+enum Reaction {
+  NOTHING
+  DISLIKE
+  LIKE
+  LOVE
+}
+
+model User {
+  id         String  @id @default(uuid()) @db.Uuid
+  names      String
+  password   String
+  email      String @unique
+  phone      String?
+  role       Role   @default(USER)
+  pic        String?   // <-- just the Cloudinary URL
+
+  authoredWishes  Wish[]  @relation("AuthoredWishes")  // wishes this user wrote
+  receivedWishes  Wish[]  @relation("ReceivedWishes")  // wishes written for this user
+}
+
+model Wish {
+  id          String @id @default(uuid()) @db.Uuid
+  user        User?   @relation("AuthoredWishes",fields: [userId], references: [id], onDelete: Cascade)
+  userId      String  @unique @db.Uuid
+  friend      User?   @relation("ReceivedWishes",fields: [friendId], references: [id], onDelete: SetNull)
+  friendId    String? @unique @db.Uuid
+  town        String?
+  title       String  
+  content     String
+
+  date        DateTime
+  time        String
+  opened      Boolean  @default(false)
+  deleted     Boolean  @default(false)
+  reaction    Reaction @default(NOTHING)   // set friend
+}
