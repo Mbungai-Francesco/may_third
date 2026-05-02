@@ -1,3 +1,5 @@
+import type { User } from "./User";
+
 export interface Wish {
 	id: string;
 	userId: string;
@@ -11,6 +13,9 @@ export interface Wish {
 	deleted: boolean;
 	reaction: Reaction;
 	town?: string;
+
+  user?: User
+  friend?: User
 }
 
 export interface WishCreateDTO {
@@ -26,6 +31,11 @@ export interface WishUpdateDTO {
   title: string
   content: string
   town?: string
+}
+
+export interface ReactDTO {
+  id: string
+  reaction: Reaction
 }
 
 export enum Reaction {

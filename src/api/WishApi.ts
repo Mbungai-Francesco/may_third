@@ -1,5 +1,5 @@
 import { api, link, conf } from ".";
-import type { Wish, WishCreateDTO, WishUpdateDTO } from "@/types";
+import type { Reaction, Wish, WishCreateDTO, WishUpdateDTO } from "@/types";
 
 const route = "api/wishes";
 
@@ -67,6 +67,18 @@ export const createWish = async (wish: WishCreateDTO, jwt: string) => {
 export const updateWish = async (id: string, wish: Partial<WishUpdateDTO>, jwt: string) => {
 	try {
 		const res = await api.put(`${link}/${route}/${id}`, wish, conf(jwt));
+		console.log("message", res.statusText);
+		return res.data.data as Wish;
+	} catch (error) {
+		console.error('Error:', error);
+		return null;
+	}
+}
+
+// React to a wish
+export const reactToWish = async (id: string, reaction: Reaction, jwt: string) => {
+	try {
+		const res = await api.put(`${link}/${route}/${id}`, { reaction }, conf(jwt));
 		console.log("message", res.statusText);
 		return res.data.data as Wish;
 	} catch (error) {

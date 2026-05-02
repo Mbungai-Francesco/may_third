@@ -4,13 +4,14 @@ import { loadToast } from "@/lib/loadToast";
 // import { CheckLogin } from '@/lib/checkLogin';
 import { useAuthStore } from "@/store/authStore";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { X, Edit, Trash2 } from "lucide-react";
-import { useEffect } from "react";
+import { Edit, MoreVertical, Trash2, X } from "lucide-react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
 import { toast } from "sonner";
 
 export const Sent = () => {
 	const queryClient = useQueryClient();
+	const [openMenuId, setOpenMenuId] = useState<string | null>(null);
 
 	const navigate = useNavigate();
 	const { isAuthenticated, user, setUser } = useAuthStore();
@@ -73,29 +74,53 @@ export const Sent = () => {
 					{wishes?.map((wish) => (
 						<div
 							key={wish.id}
-							className="bg-white rounded-lg shadow-md p-4 mb-4"
+							className="bg-white rounded-lg shadow-md p-4 mb-4 relative"
 						>
-							<h3 className="font-bold text-lg">{wish.title}</h3>
-							<p className="text-gray-600">{wish.content}</p>
-							<div className="flex gap-2 mt-4">
-								<button
-									onClick={() => navigate(`/form/wish/${wish.id}`)}
-									className="flex items-center gap-2 px-3 py-2 rounded transition border border-[#B38E81] bg-[#B38E81] text-white shadow-sm hover:bg-[#D6C0B8] hover:text-[#3f2f29]"
-								>
-									<Edit size={18} />
-									Update
-								</button>
-								<button
-									onClick={() => {
-										if (confirm("Are you sure you want to delete this wish?")) {
-											deleteWishFn(wish.id);
+							<div className="flex items-start justify-between gap-3">
+								<div onClick={() => navigate(`/wish/${wish.id}`)} className="cursor-pointer">
+									<h3 className="font-bold text-lg">{wish.title}</h3>
+									<p className="text-gray-600">{wish.content}</p>
+								</div>
+								<div className="relative shrink-0">
+									<button
+										type="button"
+										onClick={() =>
+											setOpenMenuId(openMenuId === wish.id ? null : wish.id)
 										}
-									}}
-									className="flex items-center gap-2 px-3 py-2 rounded transition border border-[#D6C0B8] bg-[#F2D8CD] text-[#3f2f29] shadow-sm hover:bg-[#D6C0B8]"
-								>
-									<Trash2 size={18} />
-									Delete
-								</button>
+										className="flex h-10 w-10 items-center justify-center rounded-full border border-[#D6C0B8] bg-[#F2D8CD] text-[#3f2f29] shadow-sm transition hover:bg-[#D6C0B8]"
+										aria-label="Open wish actions"
+									>
+										<MoreVertical size={18} />
+									</button>
+									{openMenuId === wish.id ? (
+										<div className="absolute right-0 top-12 z-10 w-40 overflow-hidden rounded-2xl border border-[#D6C0B8] bg-white shadow-lg">
+											<button
+												type="button"
+												onClick={() => {
+													setOpenMenuId(null);
+													navigate(`/form/wish/${wish.id}`);
+												}}
+												className="flex w-full items-center gap-2 px-4 py-3 text-left text-sm text-[#3f2f29] transition hover:bg-[#F2D8CD]"
+											>
+												<Edit size={16} />
+												Update
+											</button>
+											<button
+												type="button"
+												onClick={() => {
+													setOpenMenuId(null);
+													if (confirm("Are you sure you want to delete this wish?")) {
+														deleteWishFn(wish.id);
+													}
+												}}
+												className="flex w-full items-center gap-2 px-4 py-3 text-left text-sm text-[#3f2f29] transition hover:bg-[#F2D8CD]"
+											>
+												<Trash2 size={16} />
+												Delete
+											</button>
+										</div>
+									) : null}
+								</div>
 							</div>
 						</div>
 					))}

@@ -1,4 +1,70 @@
+import { login } from "@/api/Auth";
+import { loadToast } from "@/lib/loadToast";
+import { useAuthStore } from "@/store/authStore";
+import { UserRole, type LoginDTO } from "@/types/User";
+import { useMutation } from "@tanstack/react-query";
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router";
+import { toast } from "sonner";
+
 export const Unlock = () => {
+	const navigate = useNavigate();
+	const { setUser, isAuthenticated } = useAuthStore();
+
+
+	const handleSubmit = () => {
+		const input = document.querySelector(".input-field") as HTMLInputElement;
+
+		const code =
+			(typeof import.meta !== "undefined" &&
+				(import.meta as any).env &&
+				(import.meta as any).env.VITE_CODE) ||
+			process.env.VITE_CODE ||
+			"";
+		const email =
+			(typeof import.meta !== "undefined" &&
+				(import.meta as any).env &&
+				(import.meta as any).env.VITE_EMAIL) ||
+			process.env.VITE_EMAIL ||
+			"";
+		const password =
+			(typeof import.meta !== "undefined" &&
+				(import.meta as any).env &&
+				(import.meta as any).env.VITE_CODE) ||
+			process.env.VITE_CODE ||
+			"";
+
+		if (input.value.toLowerCase() === code.toLowerCase()) {
+			mutate({ email, password })
+		} else {
+			input.value = "";
+			input.placeholder = "Wrong code, try again!";
+			input.classList.add("shake");
+			setTimeout(() => {
+				input.classList.remove("shake");
+			}, 500);
+		}
+	};
+
+	const { mutate } = useMutation({
+		mutationFn: (val: LoginDTO) => {
+			loadToast("Logging in", "", 0, "blue");
+			return login(val);
+		},
+		onSuccess: (data) => {
+			if (data !== null) {
+				setUser(data);
+				toast.dismiss();
+				if (data.role === UserRole.CELEBRANT) navigate("/received");
+				else navigate("/sent");
+			} else loadToast("Warning", "Wrong credentials", 3000, "red");
+		},
+		onError: (error) => {
+			loadToast("Warning", "Wrong credentials", 3000, "red");
+			console.error("Error logging in:", error);
+		},
+	});
+
 	return (
 		<div className="h-screen w-full bg-blob flex items-center justify-center px-6 py-12 overflow-hidden">
 			<div className="petal w-10 h-10 top-[8%] left-[10%] rotate-45 bg-[#D6C0B8]"></div>
@@ -64,13 +130,14 @@ export const Unlock = () => {
 				<input
 					type="text"
 					placeholder="Code"
-					className="input-field input text-center mb-6"
+					className="input-field input text-center mb-6 font-semibold text-xl"
 				/>
 
 				{/* <!-- Button --> */}
 				<button
 					className="btn-gradient w-full rounded-full py-4 text-white font-gara text-lg font-medium flex items-center justify-center gap-2 hover:brightness-105 active:scale-[0.98] transition-all duration-200 mb-5"
 					style={{ boxShadow: "0 8px 24px rgba(179,142,129,0.45)" }}
+					onClick={handleSubmit}
 				>
 					{/* <!-- Sparkle icon --> */}
 					<svg
@@ -95,4 +162,4 @@ export const Unlock = () => {
 			</div>
 		</div>
 	);
-}
+};

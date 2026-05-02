@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import * as z from 'zod'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
-import type { LoginDTO } from '@/types/User'
+import { UserRole, type LoginDTO } from '@/types/User'
 import { useMutation } from '@tanstack/react-query'
 import { loadToast } from '@/lib/loadToast'
 import { login } from '@/api/Auth'
@@ -28,12 +28,15 @@ const formSchema = z.object({
 export const Login = () => {
   const [open, setOpen] = useState(false)
   const navigate = useNavigate()
-	const { setUser, isAuthenticated } = useAuthStore();
+	const { setUser, isAuthenticated, user } = useAuthStore();
 
 	
 		// CheckLogin(isAuthenticated, navigate)
 		useEffect(() => {
-			if (isAuthenticated) navigate("/sent");
+			if (isAuthenticated){
+				if(user?.role === UserRole.CELEBRANT) navigate("/received");
+				else navigate("/sent");
+			}
 		}, [isAuthenticated]);
 
   // 1. Define your form.
@@ -64,9 +67,14 @@ export const Login = () => {
     },
     onSuccess: (data) => {
       if (data !== null) {
+				console.log(data);
+				
         setUser(data)
         toast.dismiss()
-        navigate('/sent')
+				console.log(data.role === UserRole.CELEBRANT);
+				
+				if (data.role === UserRole.CELEBRANT) navigate("/received");
+				else navigate("/sent");
       } 
       else loadToast('Warning', 'Wrong credentials', 3000, 'red')
     },

@@ -7,6 +7,8 @@ import { Register } from "./pages/auth/register";
 import { Sent } from "./pages/wishes/sent";
 import WishForm from "./pages/forms/WishForm";
 import WishUpdateForm from "./pages/forms/WishUpdateForm";
+import DisplaySentWish from "./pages/wishes/DisplayWish";
+import { Received } from "./pages/wishes/received";
 
 export const router = createBrowserRouter([
 	{
@@ -30,12 +32,26 @@ export const router = createBrowserRouter([
 		Component: Sent,
 	},
 	{
+		path: "/received",
+		Component: Received,
+	},
+	{
 		path: "/form/wish",
 		Component: WishForm,
-	},{
+	},
+	{
 		path: "/form/wish/:id",
 		Component: WishUpdateForm,
 	},
+	{
+		path: "/wish/:id",
+		Component: DisplaySentWish,
+	}
+	,
+	// {
+	// 	path: "/received/:id",
+	// 	Component: DisplaySentWish,
+	// },
 	{
 		path: "*",
 		Component: NotFound,
