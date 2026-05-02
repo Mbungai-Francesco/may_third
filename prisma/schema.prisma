@@ -46,6 +46,7 @@ model Wish {
   userId      String  @db.Uuid
   friend      User?   @relation("ReceivedWishes",fields: [friendId], references: [id], onDelete: SetNull)
   friendId    String? @db.Uuid
+  town        String?
 
   title       String  
   content     String

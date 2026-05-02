@@ -28,6 +28,7 @@ export type WishMinAggregateOutputType = {
   id: string | null
   userId: string | null
   friendId: string | null
+  town: string | null
   title: string | null
   content: string | null
   date: Date | null
@@ -41,6 +42,7 @@ export type WishMaxAggregateOutputType = {
   id: string | null
   userId: string | null
   friendId: string | null
+  town: string | null
   title: string | null
   content: string | null
   date: Date | null
@@ -54,6 +56,7 @@ export type WishCountAggregateOutputType = {
   id: number
   userId: number
   friendId: number
+  town: number
   title: number
   content: number
   date: number
@@ -69,6 +72,7 @@ export type WishMinAggregateInputType = {
   id?: true
   userId?: true
   friendId?: true
+  town?: true
   title?: true
   content?: true
   date?: true
@@ -82,6 +86,7 @@ export type WishMaxAggregateInputType = {
   id?: true
   userId?: true
   friendId?: true
+  town?: true
   title?: true
   content?: true
   date?: true
@@ -95,6 +100,7 @@ export type WishCountAggregateInputType = {
   id?: true
   userId?: true
   friendId?: true
+  town?: true
   title?: true
   content?: true
   date?: true
@@ -181,6 +187,7 @@ export type WishGroupByOutputType = {
   id: string
   userId: string
   friendId: string | null
+  town: string | null
   title: string
   content: string
   date: Date
@@ -215,6 +222,7 @@ export type WishWhereInput = {
   id?: Prisma.UuidFilter<"Wish"> | string
   userId?: Prisma.UuidFilter<"Wish"> | string
   friendId?: Prisma.UuidNullableFilter<"Wish"> | string | null
+  town?: Prisma.StringNullableFilter<"Wish"> | string | null
   title?: Prisma.StringFilter<"Wish"> | string
   content?: Prisma.StringFilter<"Wish"> | string
   date?: Prisma.DateTimeFilter<"Wish"> | Date | string
@@ -230,6 +238,7 @@ export type WishOrderByWithRelationInput = {
   id?: Prisma.SortOrder
   userId?: Prisma.SortOrder
   friendId?: Prisma.SortOrderInput | Prisma.SortOrder
+  town?: Prisma.SortOrderInput | Prisma.SortOrder
   title?: Prisma.SortOrder
   content?: Prisma.SortOrder
   date?: Prisma.SortOrder
@@ -248,6 +257,7 @@ export type WishWhereUniqueInput = Prisma.AtLeast<{
   NOT?: Prisma.WishWhereInput | Prisma.WishWhereInput[]
   userId?: Prisma.UuidFilter<"Wish"> | string
   friendId?: Prisma.UuidNullableFilter<"Wish"> | string | null
+  town?: Prisma.StringNullableFilter<"Wish"> | string | null
   title?: Prisma.StringFilter<"Wish"> | string
   content?: Prisma.StringFilter<"Wish"> | string
   date?: Prisma.DateTimeFilter<"Wish"> | Date | string
@@ -263,6 +273,7 @@ export type WishOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
   userId?: Prisma.SortOrder
   friendId?: Prisma.SortOrderInput | Prisma.SortOrder
+  town?: Prisma.SortOrderInput | Prisma.SortOrder
   title?: Prisma.SortOrder
   content?: Prisma.SortOrder
   date?: Prisma.SortOrder
@@ -282,6 +293,7 @@ export type WishScalarWhereWithAggregatesInput = {
   id?: Prisma.UuidWithAggregatesFilter<"Wish"> | string
   userId?: Prisma.UuidWithAggregatesFilter<"Wish"> | string
   friendId?: Prisma.UuidNullableWithAggregatesFilter<"Wish"> | string | null
+  town?: Prisma.StringNullableWithAggregatesFilter<"Wish"> | string | null
   title?: Prisma.StringWithAggregatesFilter<"Wish"> | string
   content?: Prisma.StringWithAggregatesFilter<"Wish"> | string
   date?: Prisma.DateTimeWithAggregatesFilter<"Wish"> | Date | string
@@ -293,6 +305,7 @@ export type WishScalarWhereWithAggregatesInput = {
 
 export type WishCreateInput = {
   id?: string
+  town?: string | null
   title: string
   content: string
   date: Date | string
@@ -308,6 +321,7 @@ export type WishUncheckedCreateInput = {
   id?: string
   userId: string
   friendId?: string | null
+  town?: string | null
   title: string
   content: string
   date: Date | string
@@ -319,6 +333,7 @@ export type WishUncheckedCreateInput = {
 
 export type WishUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  town?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   title?: Prisma.StringFieldUpdateOperationsInput | string
   content?: Prisma.StringFieldUpdateOperationsInput | string
   date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -334,6 +349,7 @@ export type WishUncheckedUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   userId?: Prisma.StringFieldUpdateOperationsInput | string
   friendId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  town?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   title?: Prisma.StringFieldUpdateOperationsInput | string
   content?: Prisma.StringFieldUpdateOperationsInput | string
   date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -347,6 +363,7 @@ export type WishCreateManyInput = {
   id?: string
   userId: string
   friendId?: string | null
+  town?: string | null
   title: string
   content: string
   date: Date | string
@@ -358,6 +375,7 @@ export type WishCreateManyInput = {
 
 export type WishUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  town?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   title?: Prisma.StringFieldUpdateOperationsInput | string
   content?: Prisma.StringFieldUpdateOperationsInput | string
   date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -371,6 +389,7 @@ export type WishUncheckedUpdateManyInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   userId?: Prisma.StringFieldUpdateOperationsInput | string
   friendId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  town?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   title?: Prisma.StringFieldUpdateOperationsInput | string
   content?: Prisma.StringFieldUpdateOperationsInput | string
   date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -394,6 +413,7 @@ export type WishCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
   userId?: Prisma.SortOrder
   friendId?: Prisma.SortOrder
+  town?: Prisma.SortOrder
   title?: Prisma.SortOrder
   content?: Prisma.SortOrder
   date?: Prisma.SortOrder
@@ -407,6 +427,7 @@ export type WishMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
   userId?: Prisma.SortOrder
   friendId?: Prisma.SortOrder
+  town?: Prisma.SortOrder
   title?: Prisma.SortOrder
   content?: Prisma.SortOrder
   date?: Prisma.SortOrder
@@ -420,6 +441,7 @@ export type WishMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
   userId?: Prisma.SortOrder
   friendId?: Prisma.SortOrder
+  town?: Prisma.SortOrder
   title?: Prisma.SortOrder
   content?: Prisma.SortOrder
   date?: Prisma.SortOrder
@@ -527,6 +549,7 @@ export type EnumReactionFieldUpdateOperationsInput = {
 
 export type WishCreateWithoutUserInput = {
   id?: string
+  town?: string | null
   title: string
   content: string
   date: Date | string
@@ -540,6 +563,7 @@ export type WishCreateWithoutUserInput = {
 export type WishUncheckedCreateWithoutUserInput = {
   id?: string
   friendId?: string | null
+  town?: string | null
   title: string
   content: string
   date: Date | string
@@ -561,6 +585,7 @@ export type WishCreateManyUserInputEnvelope = {
 
 export type WishCreateWithoutFriendInput = {
   id?: string
+  town?: string | null
   title: string
   content: string
   date: Date | string
@@ -574,6 +599,7 @@ export type WishCreateWithoutFriendInput = {
 export type WishUncheckedCreateWithoutFriendInput = {
   id?: string
   userId: string
+  town?: string | null
   title: string
   content: string
   date: Date | string
@@ -616,6 +642,7 @@ export type WishScalarWhereInput = {
   id?: Prisma.UuidFilter<"Wish"> | string
   userId?: Prisma.UuidFilter<"Wish"> | string
   friendId?: Prisma.UuidNullableFilter<"Wish"> | string | null
+  town?: Prisma.StringNullableFilter<"Wish"> | string | null
   title?: Prisma.StringFilter<"Wish"> | string
   content?: Prisma.StringFilter<"Wish"> | string
   date?: Prisma.DateTimeFilter<"Wish"> | Date | string
@@ -644,6 +671,7 @@ export type WishUpdateManyWithWhereWithoutFriendInput = {
 export type WishCreateManyUserInput = {
   id?: string
   friendId?: string | null
+  town?: string | null
   title: string
   content: string
   date: Date | string
@@ -656,6 +684,7 @@ export type WishCreateManyUserInput = {
 export type WishCreateManyFriendInput = {
   id?: string
   userId: string
+  town?: string | null
   title: string
   content: string
   date: Date | string
@@ -667,6 +696,7 @@ export type WishCreateManyFriendInput = {
 
 export type WishUpdateWithoutUserInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  town?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   title?: Prisma.StringFieldUpdateOperationsInput | string
   content?: Prisma.StringFieldUpdateOperationsInput | string
   date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -680,6 +710,7 @@ export type WishUpdateWithoutUserInput = {
 export type WishUncheckedUpdateWithoutUserInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   friendId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  town?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   title?: Prisma.StringFieldUpdateOperationsInput | string
   content?: Prisma.StringFieldUpdateOperationsInput | string
   date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -692,6 +723,7 @@ export type WishUncheckedUpdateWithoutUserInput = {
 export type WishUncheckedUpdateManyWithoutUserInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   friendId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  town?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   title?: Prisma.StringFieldUpdateOperationsInput | string
   content?: Prisma.StringFieldUpdateOperationsInput | string
   date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -703,6 +735,7 @@ export type WishUncheckedUpdateManyWithoutUserInput = {
 
 export type WishUpdateWithoutFriendInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  town?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   title?: Prisma.StringFieldUpdateOperationsInput | string
   content?: Prisma.StringFieldUpdateOperationsInput | string
   date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -716,6 +749,7 @@ export type WishUpdateWithoutFriendInput = {
 export type WishUncheckedUpdateWithoutFriendInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   userId?: Prisma.StringFieldUpdateOperationsInput | string
+  town?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   title?: Prisma.StringFieldUpdateOperationsInput | string
   content?: Prisma.StringFieldUpdateOperationsInput | string
   date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -728,6 +762,7 @@ export type WishUncheckedUpdateWithoutFriendInput = {
 export type WishUncheckedUpdateManyWithoutFriendInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   userId?: Prisma.StringFieldUpdateOperationsInput | string
+  town?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   title?: Prisma.StringFieldUpdateOperationsInput | string
   content?: Prisma.StringFieldUpdateOperationsInput | string
   date?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -743,6 +778,7 @@ export type WishSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   id?: boolean
   userId?: boolean
   friendId?: boolean
+  town?: boolean
   title?: boolean
   content?: boolean
   date?: boolean
@@ -758,6 +794,7 @@ export type WishSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensio
   id?: boolean
   userId?: boolean
   friendId?: boolean
+  town?: boolean
   title?: boolean
   content?: boolean
   date?: boolean
@@ -773,6 +810,7 @@ export type WishSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensio
   id?: boolean
   userId?: boolean
   friendId?: boolean
+  town?: boolean
   title?: boolean
   content?: boolean
   date?: boolean
@@ -788,6 +826,7 @@ export type WishSelectScalar = {
   id?: boolean
   userId?: boolean
   friendId?: boolean
+  town?: boolean
   title?: boolean
   content?: boolean
   date?: boolean
@@ -797,7 +836,7 @@ export type WishSelectScalar = {
   reaction?: boolean
 }
 
-export type WishOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "userId" | "friendId" | "title" | "content" | "date" | "time" | "opened" | "deleted" | "reaction", ExtArgs["result"]["wish"]>
+export type WishOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "userId" | "friendId" | "town" | "title" | "content" | "date" | "time" | "opened" | "deleted" | "reaction", ExtArgs["result"]["wish"]>
 export type WishInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   user?: boolean | Prisma.Wish$userArgs<ExtArgs>
   friend?: boolean | Prisma.Wish$friendArgs<ExtArgs>
@@ -821,6 +860,7 @@ export type $WishPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
     id: string
     userId: string
     friendId: string | null
+    town: string | null
     title: string
     content: string
     date: Date
@@ -1256,6 +1296,7 @@ export interface WishFieldRefs {
   readonly id: Prisma.FieldRef<"Wish", 'String'>
   readonly userId: Prisma.FieldRef<"Wish", 'String'>
   readonly friendId: Prisma.FieldRef<"Wish", 'String'>
+  readonly town: Prisma.FieldRef<"Wish", 'String'>
   readonly title: Prisma.FieldRef<"Wish", 'String'>
   readonly content: Prisma.FieldRef<"Wish", 'String'>
   readonly date: Prisma.FieldRef<"Wish", 'DateTime'>

@@ -89,6 +89,7 @@ export const WishScalarFieldEnum = {
   id: 'id',
   userId: 'userId',
   friendId: 'friendId',
+  town: 'town',
   title: 'title',
   content: 'content',
   date: 'date',
