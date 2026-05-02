@@ -83,7 +83,7 @@ export const updateImage = async (id: string, image: File, jwt: string) => {
 // Delete a user by ID
 export const deleteUser = async (id: string, jwt: string) => {
   try {
-    const res = await api.delete(`${link}/${route}/${id}`, conf(jwt));
+    await api.delete(`${link}/${route}/${id}`, conf(jwt));
     // console.log("message", res.statusText);
     return true;
   } catch (error) {
