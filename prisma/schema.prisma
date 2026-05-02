@@ -32,6 +32,7 @@ model User {
   password   String
   email      String @unique
   phone      String?
+  town        String?
   role       Role   @default(USER)
   pic        String?   // <-- just the Cloudinary URL
 
@@ -45,7 +46,7 @@ model Wish {
   userId      String  @db.Uuid
   friend      User?   @relation("ReceivedWishes",fields: [friendId], references: [id], onDelete: SetNull)
   friendId    String? @db.Uuid
-  town        String?
+
   title       String  
   content     String
 

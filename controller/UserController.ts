@@ -89,7 +89,7 @@ export const getUser = async (req: Request, res: Response) => {
 export const updateUser = async (req: Request, res: Response) => {
 	try {
 		const id = Array.isArray(req.params.id) ? req.params.id[0] : req.params.id;
-		const { names, phone } = req.body;
+		const { names, phone, email, town } = req.body;
 
 		const userId: string = req.user.userId;
 
@@ -107,7 +107,47 @@ export const updateUser = async (req: Request, res: Response) => {
 
 		const user = await db.user.update({
 			where: { id },
-			data: { names, phone },
+			data: { names, phone, email, town },
+			select: {
+				id: true,
+				names: true,
+				email: true,
+				phone: true,
+				role: true,
+				pic: true,
+				password: false,
+			},
+		});
+
+		return res.status(200).json({ message: "User updated", data: user });
+	} catch (error: any) {
+		console.log(error.message);
+		return res.status(500).json({ message: "Internal Server Error" });
+	}
+};
+
+export const updatePassword = async (req: Request, res: Response) => {
+	try {
+		const id = Array.isArray(req.params.id) ? req.params.id[0] : req.params.id;
+		const { password } = req.body;
+
+		const userId: string = req.user.userId;
+
+		if(userId !== id){
+			return res
+				.status(403)
+				.json({ message: "Only a user can modify their info" });
+		}
+
+    const existingUser = await db.user.findUnique({ where: { id } });
+
+		if (!existingUser) {
+			return res.status(404).json({ message: "User doesn't exist" });
+		}
+
+		const user = await db.user.update({
+			where: { id },
+			data: { password },
 			select: {
 				id: true,
 				names: true,

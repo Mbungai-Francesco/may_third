@@ -12,7 +12,7 @@ import {
 
 const WishRoutes = express.Router();
 
-WishRoutes.post("/wish", createWish);
+WishRoutes.post("/wishes", createWish);
 WishRoutes.get("/wishes", getWishes);
 WishRoutes.get("/wishes/mine", getMyWishes);
 WishRoutes.get("/wishes/received", getReceivedWishes);

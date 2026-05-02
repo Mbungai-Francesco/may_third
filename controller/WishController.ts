@@ -4,7 +4,7 @@ import { Request, Response } from "express";
 
 export const createWish = async (req: Request, res: Response) => {
 	try {
-		const { friendId, town, title, content, date, time } = req.body;
+		const { friendId, title, content, date, time } = req.body;
 		const userId: string = req.user.userId;
 
 		if (!title || !content || !date || !time) {
@@ -17,7 +17,6 @@ export const createWish = async (req: Request, res: Response) => {
 			data: {
 				userId,
 				friendId: friendId || null,
-				town,
 				title,
 				content,
 				date: new Date(date),
@@ -131,7 +130,7 @@ export const updateWish = async (req: Request, res: Response) => {
 	try {
 		const id = Array.isArray(req.params.id) ? req.params.id[0] : req.params.id;
 		const userId : string = req.user.userId;
-		const { town, title, content, date, time, friendId } = req.body;
+		const { title, content, opened } = req.body;
 
 		const wish = await db.wish.findUnique({ where: { id } });
 
@@ -148,12 +147,9 @@ export const updateWish = async (req: Request, res: Response) => {
 		const updated = await db.wish.update({
 			where: { id },
 			data: {
-				town,
 				title,
 				content,
-				date: date ? new Date(date) : undefined,
-				time,
-				friendId,
+				opened,
 			},
 			include: {
 				user: { select: { id: true, names: true, pic: true } },

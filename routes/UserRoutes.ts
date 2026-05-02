@@ -6,7 +6,8 @@ import {
   getUser,
   updateUser,
   uploadImage,
-  deleteUser
+  deleteUser,
+  updatePassword
 } from "../controller/UserController";
 
 const upload = multer({ storage: multer.memoryStorage() });
@@ -16,6 +17,7 @@ UserRoutes.get("/users", getUsers);
 UserRoutes.get("/users/me", getMe);
 UserRoutes.get("/users/:id", getUser);
 UserRoutes.put("/users/image/:id", upload.single("image"), uploadImage);
+UserRoutes.put("/users/password/:id", updatePassword);
 UserRoutes.put("/users/:id", updateUser);
 UserRoutes.delete("/users/:id", deleteUser);
 

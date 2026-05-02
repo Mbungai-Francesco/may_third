@@ -7,8 +7,8 @@ import {
 
 const AuthRoutes = express.Router();
 
-AuthRoutes.post("/register", createUser);
-AuthRoutes.post("/login", loginUser);
-AuthRoutes.post("/logout", logoutUser);
+AuthRoutes.post("/auth/register", createUser);
+AuthRoutes.post("/auth/login", loginUser);
+AuthRoutes.post("/auth/logout", logoutUser);
 
 export default AuthRoutes;

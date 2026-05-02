@@ -12,7 +12,12 @@ import WishRoutes from "../routes/WishRoutes";
 
 const app = express();
 
-app.use(cors());
+app.use(
+	cors({
+		origin: true, // reflects the request origin, works with credentials
+		credentials: true,
+	}),
+);
 app.use(cookieParser());
 app.use(express.json());
 
