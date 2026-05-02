@@ -2,7 +2,7 @@ import { getWishById, updateWish } from "@/api/WishApi";
 import { useAuthStore } from "@/store/authStore";
 import type { WishUpdateDTO } from "@/types";
 import { useMutation, useQuery } from "@tanstack/react-query";
-import {  X } from "lucide-react";
+import { X } from "lucide-react";
 import { useEffect } from "react";
 import { useNavigate, useParams } from "react-router";
 
@@ -10,6 +10,8 @@ export default function DisplayRecieved() {
 	const { id } = useParams<{ id: string }>();
 	const navigate = useNavigate();
 	const { isAuthenticated, user } = useAuthStore();
+
+	const message = encodeURIComponent("Hello! I saw your wish 🎉");
 
 	useEffect(() => {
 		if (!isAuthenticated) navigate("/unlock");
@@ -39,9 +41,6 @@ export default function DisplayRecieved() {
 		}
 	}, [wish, mutate]);
 
-	
-	
-
 	if (isPending) {
 		return (
 			<div className="bg-blob min-h-screen flex items-center justify-center px-4">
@@ -59,7 +58,20 @@ export default function DisplayRecieved() {
 	}
 
 	return (
-		<div className="bg-blob min-h-screen flex flex-col items-center justify-center px-4 py-6">
+		<div className="bg-blob min-h-screen flex flex-col items-center justify-center px-4 py-6 relative">
+			{wish.user?.phone && (
+				<a
+					href={`https://wa.me/${wish.user?.phone?.replace(/\D/g, "")}?text=${message}`}
+					target="_blank"
+					rel="noopener noreferrer"
+					className="flex items-center gap-2 text-green-600 absolute bottom-8 right-5 animate-bounce"
+				>
+					<img
+						src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg"
+						className="w-20 h-20"
+					/>
+				</a>
+			)}
 			<button
 				type="button"
 				onClick={() => navigate(-1)}
@@ -75,13 +87,16 @@ export default function DisplayRecieved() {
 					</h1>
 					{wish.user && (
 						<p className="text-lg leading-8">
-							From : <span className="text-black/70">{" "}{wish.user.names.split(" ")[0]}
+							From :{" "}
+							<span className="text-black/70">
+								{" "}
+								{wish.user.names.split(" ")[0]}
 							</span>
 						</p>
 					)}
 					{wish.town && (
 						<p className="text-lg leading-8">
-							at : <span className="text-black/70">{" "}{wish.town}</span>
+							at : <span className="text-black/70"> {wish.town}</span>
 						</p>
 					)}
 				</div>
