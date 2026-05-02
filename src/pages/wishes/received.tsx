@@ -7,7 +7,7 @@ import { Reaction } from "@/types";
 import type { ReactDTO } from "@/types/Wish";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { Heart, RefreshCw, ThumbsDown, ThumbsUp, X } from "lucide-react";
-import { useEffect } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useNavigate } from "react-router";
 import { toast } from "sonner";
 
@@ -15,6 +15,8 @@ export const Received = () => {
 	const queryClient = useQueryClient();
 	const navigate = useNavigate();
 	const { isAuthenticated, user, setUser } = useAuthStore();
+	const [selectedName, setSelectedName] = useState("all");
+	const [selectedTown, setSelectedTown] = useState("all");
 
 	// CheckLogin(isAuthenticated, navigate)
 	useEffect(() => {
@@ -27,6 +29,32 @@ export const Received = () => {
 		queryKey: ["wishes"],
 		queryFn: () => getMyWishes(user?.jwt || ""),
 	});
+
+	const filteredWishes = useMemo(() => {
+		return (wishes ?? []).filter((wish) => {
+			const wishName = wish.user?.names || "";
+			const wishTown = wish.town || "";
+
+			const matchesName =
+				selectedName === "all" || wishName === selectedName;
+			const matchesTown =
+				selectedTown === "all" || wishTown === selectedTown;
+
+			return matchesName && matchesTown;
+		});
+	}, [selectedName, selectedTown, wishes]);
+
+	const wishNames = useMemo(() => {
+		return Array.from(
+			new Set((wishes ?? []).map((wish) => wish.user?.names).filter(Boolean)),
+		) as string[];
+	}, [wishes]);
+
+	const wishTowns = useMemo(() => {
+		return Array.from(
+			new Set((wishes ?? []).map((wish) => wish.town).filter(Boolean)),
+		) as string[];
+	}, [wishes]);
 
 	const { mutate: react } = useMutation({
 		mutationFn: (val: ReactDTO) => {
@@ -110,6 +138,53 @@ export const Received = () => {
 				</div>
 			</div>
 
+			<div className="rounded-3xl border border-[#D6C0B8] bg-white/80 p-4 shadow-sm">
+				<div className="mb-3 flex items-center justify-between">
+					<p className="font-gara text-xl font-bold italic text-[#3f2f29]">Filters</p>
+					<button
+						type="button"
+						onClick={() => {
+							setSelectedName("all");
+							setSelectedTown("all");
+						}}
+						className="rounded-full border border-[#D6C0B8] bg-[#F2D8CD] px-3 py-1 text-sm text-[#3f2f29] transition hover:bg-[#D6C0B8]"
+					>
+						Reset
+					</button>
+				</div>
+				<div className="flex justify-between items-center gap-3">
+					<label className=" w-full flex flex-col gap-2 text-sm text-[#3f2f29]">
+						<select
+							value={selectedName}
+							onChange={(event) => setSelectedName(event.target.value)}
+							className="rounded-2xl border border-[#D6C0B8] bg-white px-4 py-3 text-[#3f2f29] outline-none transition focus:border-[#B38E81]"
+						>
+							<option value="all">All names</option>
+							{wishNames.map((name) => (
+								<option key={name} value={name}>
+									{name}
+								</option>
+							))}
+						</select>
+					</label>
+
+					<label className="w-full flex flex-col gap-2 text-sm text-[#3f2f29]">
+						<select
+							value={selectedTown}
+							onChange={(event) => setSelectedTown(event.target.value)}
+							className="rounded-2xl border border-[#D6C0B8] bg-white px-4 py-3 text-[#3f2f29] outline-none transition focus:border-[#B38E81]"
+						>
+							<option value="all">All towns</option>
+							{wishTowns.map((town) => (
+								<option key={town} value={town}>
+									{town}
+								</option>
+							))}
+						</select>
+					</label>
+				</div>
+			</div>
+
 			<div
 				className="box-scroll grow overflow-y-scroll"
 			>
@@ -117,7 +192,7 @@ export const Received = () => {
 					<p>Loading wishes...</p>
 				) : (
 					<div>
-						{wishes?.map((wish) => (
+						{filteredWishes.map((wish) => (
 							<div
 								key={wish.id}
 								className="bg-white rounded-lg shadow-md p-4 mb-4"
