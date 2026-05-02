@@ -1,7 +1,6 @@
 import { db } from "../lib/db";
 import { Request, Response } from "express";
 import { generateToken } from "../utils/jwt";
-import { setTokenCookie } from "../utils/cookies";
 
 
 export const createUser = async (req: Request, res: Response) => {
@@ -37,9 +36,11 @@ export const createUser = async (req: Request, res: Response) => {
 
 		const token = generateToken(user.id);
 
-		setTokenCookie(res, token);
-
-		return res.status(201).json({ message: "User created", data: user });
+		return res.status(201).json({ 
+			message: "User created", 
+			data: user,
+			token 
+		});
 	} catch (error: any) {
 		console.log(error.message);
 		return res.status(500).json({ message: "Internal Server Error" });
@@ -81,13 +82,13 @@ export const loginUser = async (req: Request, res: Response) => {
 
 		const token = generateToken(user.id);
 
-		setTokenCookie(res, token);
-
 		const { password: _, ...userWithoutPassword } = user;
 
-		return res
-			.status(200)
-			.json({ message: "Logged in", data: userWithoutPassword });
+		return res.status(200).json({ 
+			message: "Logged in", 
+			data: userWithoutPassword,
+			token 
+		});
 	} catch (error: any) {
 		console.log(error.message);
 		return res.status(500).json({ message: "Internal Server Error" });
@@ -95,6 +96,5 @@ export const loginUser = async (req: Request, res: Response) => {
 };
 
 export const logoutUser = async (req: Request, res: Response) => {
-	res.clearCookie("token");
 	return res.status(200).json({ message: "Logged out successfully" });
 };
