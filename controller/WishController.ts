@@ -67,7 +67,7 @@ export const getWish = async (req: Request, res: Response) => {
 		const wish = await db.wish.findUnique({
 			where: { id },
 			include: {
-				user: { select: { id: true, names: true, pic: true } },
+				user: { select: { id: true, names: true, pic: true, phone: true } },
 				friend: { select: { id: true, names: true, pic: true } },
 			},
 		});
