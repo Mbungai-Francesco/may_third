@@ -62,9 +62,7 @@ export const Received = () => {
 				queryClient.invalidateQueries({ queryKey: ["wishes"] });
 				// toast.dismiss();
 				// toast.success("Wish reacted to successfully!");
-				navigate(-1); // Go back to previous page
-			} else {
-				// loadToast("Warning", "Error reacting to wish", 3000, "red");
+				// navigate(-1); // Go back to previous page
 			}
 		},
 		onError: () => {
