@@ -17,6 +17,7 @@ import {
 } from '@/components/ui/form'
 import { useNavigate } from 'react-router'
 import { Eye, EyeOff } from 'lucide-react'
+import { useAuthStore } from '@/store/authStore'
 
 
 // ✅ Zod schema
@@ -29,6 +30,7 @@ const formSchema = z.object({
 export const Register = () => {
   const [open, setOpen] = useState(false)
   const navigate = useNavigate()
+	const { setUser } = useAuthStore()
 
   // 1. Define your form.
   const form = useForm<z.infer<typeof formSchema>>({
@@ -59,6 +61,7 @@ export const Register = () => {
     },
     onSuccess: (data) => {
       if (data !== null) {
+				setUser(data)
         toast.dismiss()
         navigate('/sent')
       } else loadToast('Warning', 'Wrong credentials', 3000, 'red')

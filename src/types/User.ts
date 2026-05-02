@@ -1,12 +1,16 @@
-export interface User{
-  id : string
-  names: string
-  email: string
-  password: string
-  phone?: string
-  role: UserRole
-  pic ?: string
-  town ?: string
+import type { Wish } from "./Wish";
+
+export interface User {
+	id: string;
+	names: string;
+	email: string;
+	password: string;
+	phone?: string;
+	role: UserRole;
+	pic?: string;
+	town?: string;
+	receivedWishes: Wish[];
+	sentWishes: Wish[];
 }
 
 export interface UserCreateDTO{

@@ -1,14 +1,18 @@
 import { getSentWishes } from '@/api/WishApi';
-import { CheckLogin } from '@/lib/checkLogin';
+// import { CheckLogin } from '@/lib/checkLogin';
 import { useAuthStore } from '@/store/authStore'
 import { useQuery } from '@tanstack/react-query';
+import { useEffect } from 'react';
 import { useNavigate } from 'react-router';
 
 export const Sent = () => {
 	const navigate = useNavigate()
 	const { isAuthenticated, user } = useAuthStore()
 
-	CheckLogin(isAuthenticated, navigate)
+	// CheckLogin(isAuthenticated, navigate)
+	useEffect(()=>{
+		if(!isAuthenticated) navigate('/login')
+	})
 	// Fetching values
 	const { isPending, data: wishes } = useQuery({
 		queryKey: ["wishes"],

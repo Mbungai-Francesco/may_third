@@ -18,24 +18,28 @@ import { createWish } from "@/api/WishApi";
 import { X } from "lucide-react";
 import { updateUser } from "@/api/UserApi";
 import { useAuthStore } from "@/store/authStore";
-import { CheckLogin } from "@/lib/checkLogin";
+// import { CheckLogin } from "@/lib/checkLogin";
+import { useEffect } from "react";
 
 // ✅ Zod schema
 const formSchema = z.object({
-  title: z.string().min(2, 'Title is required').max(100, 'Title is too long'),
-  content: z.string().min(10, 'Content is required').max(1000, 'Content is too long'),
-  town: z.string().max(100, 'Town name is too long').optional(),
-  phone: z.string().max(20, 'Phone number is too long').optional(),
-})
-
-
+	title: z.string().min(2, "Title is required").max(100, "Title is too long"),
+	content: z
+		.string()
+		.min(10, "Content is required")
+		.max(1000, "Content is too long"),
+	town: z.string().max(100, "Town name is too long").optional(),
+	phone: z.string().max(20, "Phone number is too long").optional(),
+});
 
 export default function WishForm() {
-  const { isAuthenticated, user } = useAuthStore();
-  const navigate = useNavigate();
-  
-  CheckLogin(isAuthenticated, navigate)
-    
+	const { isAuthenticated, user } = useAuthStore();
+	const navigate = useNavigate();
+
+	// CheckLogin(isAuthenticated, navigate)
+	useEffect(() => {
+		if (!isAuthenticated) navigate("/login");
+	});
 
 	const form = useForm<z.infer<typeof formSchema>>({
 		resolver: zodResolver(formSchema),
@@ -47,30 +51,30 @@ export default function WishForm() {
 		},
 	});
 
-  function onSubmit(values: z.infer<typeof formSchema>) {
-      // Do something with the form values.
-      // ✅ This will be type-safe and validated.
-  
-      const val: WishCreateDTO = {
-				...values,
-				date: new Date(),
-				time: new Date().toLocaleTimeString([], {
-					hour: "2-digit",
-					minute: "2-digit",
-				}),
-				friendId: "550e8400-e29b-41d4-a716-446655440000", 
-			};
-      console.log(val)
-      if(values.town || values.phone) {
-        updateUserFn({
-          town: values.town,
-          phone: values.phone,
-        })
-      }
-      mutate(val)
-    }
+	function onSubmit(values: z.infer<typeof formSchema>) {
+		// Do something with the form values.
+		// ✅ This will be type-safe and validated.
 
-  const { mutate } = useMutation({
+		const val: WishCreateDTO = {
+			...values,
+			date: new Date(),
+			time: new Date().toLocaleTimeString([], {
+				hour: "2-digit",
+				minute: "2-digit",
+			}),
+			friendId: "550e8400-e29b-41d4-a716-446655440000",
+		};
+		console.log(val);
+		if (values.town || values.phone) {
+			updateUserFn({
+				town: values.town,
+				phone: values.phone,
+			});
+		}
+		mutate(val);
+	}
+
+	const { mutate } = useMutation({
 		mutationFn: (val: WishCreateDTO) => {
 			loadToast("Creating wish", "", 0, "blue");
 			return createWish(val);
@@ -86,20 +90,20 @@ export default function WishForm() {
 			console.error("Error creating wish:", error);
 		},
 	});
-  
-  const { mutate: updateUserFn } = useMutation({
+
+	const { mutate: updateUserFn } = useMutation({
 		mutationFn: (val: UserUpdateDTO) => {
-			return updateUser(user?.id || '',val);
+			return updateUser(user?.id || "", val);
 		},
 		onSuccess: (data) => {
 			// toast.dismiss();
 			// navigate("/sent");
-      if(data === null) loadToast("Warning", "Error updating", 3000, "red");
+			if (data === null) loadToast("Warning", "Error updating", 3000, "red");
 		},
 		onError: (error) => {
 			loadToast("Warning", "Error updating", 3000, "red");
 			console.error("Error updating:", error);
-      // navigate("/sent");
+			// navigate("/sent");
 		},
 	});
 
