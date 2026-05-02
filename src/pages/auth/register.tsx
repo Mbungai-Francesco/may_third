@@ -60,7 +60,7 @@ export const Register = () => {
     onSuccess: (data) => {
       if (data !== null) {
         toast.dismiss()
-        navigate('/')
+        navigate('/sent')
       } else loadToast('Warning', 'Wrong credentials', 3000, 'red')
     },
     onError: (error) => {
@@ -118,7 +118,9 @@ export const Register = () => {
 								name="names"
 								render={({ field }) => (
 									<FormItem>
-										<label className="text-[#B38E81]">Names</label>
+										<label className="text-[#B38E81]">
+											Names <span className="red-star">*</span>
+										</label>
 										<FormControl>
 											<input
 												type="text"
@@ -138,7 +140,9 @@ export const Register = () => {
 								name="email"
 								render={({ field }) => (
 									<FormItem>
-										<label className="text-[#B38E81]">Email</label>
+										<label className="text-[#B38E81]">
+											Email <span className="red-star">*</span>
+										</label>
 										<FormControl>
 											<input
 												type="email"
@@ -158,7 +162,9 @@ export const Register = () => {
 								name="password"
 								render={({ field }) => (
 									<FormItem>
-										<label className="text-[#B38E81]">Password</label>
+										<label className="text-[#B38E81]">
+											Password <span className="red-star">*</span>
+										</label>
 										<FormControl>
 											<div className="relative flex z-0 items-center">
 												<input
@@ -198,6 +204,20 @@ export const Register = () => {
 						</form>
 					</Form>
 				</div>
+				<p
+					className="font-gara mt-2 text-xl italic"
+					style={{ color: "#B38E81" }}
+				>
+					Already have one?{" "}
+					<span
+						className="font-gara text-xl font-semibold underline italic cursor-pointer hover:underline"
+						style={{ color: "#B38E81" }}
+						onClick={() => navigate("/login")}
+					>
+						Login here
+					</span>
+					.
+				</p>
 			</div>
 		</div>
 	);

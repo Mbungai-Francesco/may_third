@@ -30,6 +30,8 @@ export const getUserById = async (id: string) => {
 // Get me
 export const getMe = async () => {
   try {
+    // console.log(link);
+    
     const res = await api.get(`${link}/${route}/me`);
     console.log("message", res.statusText);
     return res.data.data as User;

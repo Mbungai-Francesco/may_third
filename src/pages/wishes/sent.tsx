@@ -1,10 +1,14 @@
 import { getSentWishes } from '@/api/WishApi';
+import { CheckLogin } from '@/lib/checkLogin';
 import { useAuthStore } from '@/store/authStore'
 import { useQuery } from '@tanstack/react-query';
+import { useNavigate } from 'react-router';
 
 export const Sent = () => {
-	// const { isAuthenticated, user } = useAuthStore()
+	const navigate = useNavigate()
+	const { isAuthenticated, user } = useAuthStore()
 
+	CheckLogin(isAuthenticated, navigate)
 	// Fetching values
 	const { isPending, data: wishes } = useQuery({
 		queryKey: ["wishes"],
@@ -13,6 +17,13 @@ export const Sent = () => {
 
 	return (
 		<div className="bg-blob h-screen flex flex-col p-6 overflow-y-scroll">
+			<p className="font-gara font-semibold italic text-2xl text-neutral-700 leading-relaxed mb-7 px-2">
+				Hey{" "}
+				<span className="font-bold text-black">
+					{user?.names || "Moon"}
+				</span>
+			</p>
+
 			{isPending ? (
 				<p>Loading wishes...</p>
 			) : (
@@ -33,6 +44,7 @@ export const Sent = () => {
 				type="submit"
 				className="btn-gradient auth-button"
 				style={{ boxShadow: "0 8px 24px rgba(179,142,129,0.45)" }}
+				onClick={() => navigate("/form/wish")}
 			>
 				Click to add A wish
 			</button>

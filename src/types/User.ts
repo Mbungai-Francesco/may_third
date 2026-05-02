@@ -21,8 +21,8 @@ export interface LoginDTO{
 }
 
 export interface UserUpdateDTO{
-  names: string
-  email: string
+  names?: string
+  email?: string
   phone?: string
   town ?: string
 }

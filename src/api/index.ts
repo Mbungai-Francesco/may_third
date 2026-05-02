@@ -1,6 +1,6 @@
 import axios from 'axios'
 
-export const link = import.meta.env.LINK || 'http://localhost:5000'
+export const link = import.meta.env.VITE_LINK || 'http://localhost:5000'; 
 
 export const api = axios.create({
   baseURL: link,

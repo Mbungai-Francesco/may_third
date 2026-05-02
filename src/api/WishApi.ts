@@ -32,7 +32,6 @@ export const getSentWishes = async () => {
 	try {
 		const res = await api.get(`${link}/${route}/mine`);
 		console.log("message", res.statusText);
-		console.log("message", res.data.data);
 		return res.data.data as Array<Wish>;
 	} catch (error) {
 		console.error('Error:', error);

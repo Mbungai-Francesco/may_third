@@ -98,13 +98,15 @@ export const Login = () => {
 								name="email"
 								render={({ field }) => (
 									<FormItem>
-										<label className="text-[#B38E81]">Email</label>
+										<label className="text-[#B38E81]">
+											Email <span className="red-star">*</span>
+										</label>
 										<FormControl>
 											<input
 												type="email"
 												placeholder="you@example.com"
 												{...field}
-												className="input-field input input-form"
+												className="input-field input input-form text-xl"
 											/>
 										</FormControl>
 										<FormMessage />
@@ -118,13 +120,15 @@ export const Login = () => {
 								name="password"
 								render={({ field }) => (
 									<FormItem>
-										<label className="text-[#B38E81]">Password</label>
+										<label className="text-[#B38E81]">
+											Password <span className="red-star">*</span>
+										</label>
 										<FormControl>
 											<div className="relative flex z-0 items-center">
 												<input
 													placeholder="••••••••"
 													{...field}
-													className="input-field input input-form"
+													className="input-field input input-form text-xl"
 													type={open ? "text" : "password"}
 												/>
 												<div className="absolute right-3 flex items-center gap-1 cursor-pointer text-slate-600 hover:text-slate-900">
@@ -158,6 +162,21 @@ export const Login = () => {
 						</form>
 					</Form>
 				</div>
+
+				<p
+					className="font-gara mt-2 text-xl italic"
+					style={{ color: "#B38E81" }}
+				>
+					No account?{" "}
+					<span
+						className="font-gara text-xl font-semibold underline italic cursor-pointer hover:underline"
+						style={{ color: "#B38E81" }}
+						onClick={() => navigate("/register")}
+					>
+						Register here
+					</span>
+					.
+				</p>
 			</div>
 		</div>
 	);
