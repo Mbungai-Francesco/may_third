@@ -81,8 +81,8 @@ export const Received = () => {
 
 	return (
 		<div
-			className="bg-blob h-screen flex flex-col p-6 overflow-y-scroll gap-2"
-			style={{ minHeight: "100dvh" }}
+			className="bg-blob h-screen flex flex-col p-6 gap-2"
+			style={{ maxHeight: "100dvh" }}
 		>
 			<div className="flex justify-between items-center">
 				<p className="font-gara font-semibold italic text-2xl text-neutral-700 leading-relaxed px-2">
@@ -110,50 +110,54 @@ export const Received = () => {
 				</div>
 			</div>
 
-			{isPending ? (
-				<p>Loading wishes...</p>
-			) : (
-				<div>
-					{wishes?.map((wish) => (
-						<div
-							key={wish.id}
-							className="bg-white rounded-lg shadow-md p-4 mb-4"
-						>
+			<div
+				className="box-scroll grow overflow-y-scroll"
+			>
+				{isPending ? (
+					<p>Loading wishes...</p>
+				) : (
+					<div>
+						{wishes?.map((wish) => (
 							<div
-								className="cursor-pointer "
-								onClick={() => navigate(`/received/${wish.id}`)}
+								key={wish.id}
+								className="bg-white rounded-lg shadow-md p-4 mb-4"
 							>
-								<h3 className="font-bold text-lg">{wish.title}</h3>
-								<p className="text-gray-600">{wish.content}</p>
-							</div>
+								<div
+									className="cursor-pointer "
+									onClick={() => navigate(`/received/${wish.id}`)}
+								>
+									<h3 className="font-bold text-lg">{wish.title}</h3>
+									<p className="text-gray-600">{wish.content}</p>
+								</div>
 
-							<div className="mt-4 flex flex-wrap gap-2">
-								{renderReactionButton(
-									wish.id,
-									Reaction.DISLIKE,
-									"Dislike",
-									ThumbsDown,
-									"border-[#B38E81] bg-[#B38E81] text-white hover:bg-[#B38E81]",
-								)}
-								{renderReactionButton(
-									wish.id,
-									Reaction.LIKE,
-									"Like",
-									ThumbsUp,
-									"border-[#D6C0B8] bg-[#D6C0B8] text-[#3f2f29] hover:bg-[#D6C0B8]",
-								)}
-								{renderReactionButton(
-									wish.id,
-									Reaction.LOVE,
-									"Love",
-									Heart,
-									"border-[#F2D8CD] bg-[#F2D8CD] text-[#3f2f29] hover:bg-[#F2D8CD]",
-								)}
+								<div className="mt-4 flex flex-wrap gap-2">
+									{renderReactionButton(
+										wish.id,
+										Reaction.DISLIKE,
+										"Dislike",
+										ThumbsDown,
+										"border-[#B38E81] bg-[#B38E81] text-white hover:bg-[#B38E81]",
+									)}
+									{renderReactionButton(
+										wish.id,
+										Reaction.LIKE,
+										"Like",
+										ThumbsUp,
+										"border-[#D6C0B8] bg-[#D6C0B8] text-[#3f2f29] hover:bg-[#D6C0B8]",
+									)}
+									{renderReactionButton(
+										wish.id,
+										Reaction.LOVE,
+										"Love",
+										Heart,
+										"border-[#F2D8CD] bg-[#F2D8CD] text-[#3f2f29] hover:bg-[#F2D8CD]",
+									)}
+								</div>
 							</div>
-						</div>
-					))}
-				</div>
-			)}
+						))}
+					</div>
+				)}
+			</div>
 		</div>
 	);
 };

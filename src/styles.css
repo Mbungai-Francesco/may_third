@@ -272,4 +272,19 @@
   .balls:nth-child(2) {
     @apply bg-red-700;
   }
+
+  /* Chrome, Edge, Safari */
+	.box-scroll::-webkit-scrollbar {
+		@apply w-1.5 h-2.5
+	}
+	.box-scroll::-webkit-scrollbar-track {
+		@apply bg-transparent rounded-full
+	}
+
+	.box-scroll::-webkit-scrollbar-thumb {
+		@apply bg-slate-600 rounded-full border-0 border-transparent
+	}
+	.box-scroll::-webkit-scrollbar-thumb:hover {
+		@apply bg-slate-800 cursor-pointer
+	}
 }
