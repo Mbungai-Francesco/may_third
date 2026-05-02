@@ -26,7 +26,7 @@ export const useAuthStore = create<AuthState>((set) => ({
 
 	fetchUser: async () => {
 		set({ isLoading: true });
-		getMe().then((data) => {
+		getMe(useAuthStore.getState().user?.jwt || '').then((data) => {
       if(data !== null)
 			set({
 				user: data,

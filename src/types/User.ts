@@ -5,18 +5,21 @@ export interface User {
 	names: string;
 	email: string;
 	password: string;
+  jwt?: string;
 	phone?: string;
 	role: UserRole;
 	pic?: string;
-	town?: string;
 	receivedWishes: Wish[];
-	sentWishes: Wish[];
+	authoredWishes: Wish[];
+
+  town ?:string
 }
 
-export interface UserCreateDTO{
-  names: string
-  email: string
-  password: string
+export interface UserCreateDTO {
+	names: string;
+	email: string;
+	password: string;
+	town?: string;
 }
 
 export interface LoginDTO{
@@ -28,7 +31,7 @@ export interface UserUpdateDTO{
   names?: string
   email?: string
   phone?: string
-  town ?: string
+  town?: string
 }
 
 export enum UserRole{

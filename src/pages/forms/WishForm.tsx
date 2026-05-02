@@ -39,14 +39,13 @@ export default function WishForm() {
 	// CheckLogin(isAuthenticated, navigate)
 	useEffect(() => {
 		if (!isAuthenticated) navigate("/login");
-	});
+	},);
 
 	const form = useForm<z.infer<typeof formSchema>>({
 		resolver: zodResolver(formSchema),
 		defaultValues: {
 			title: "",
 			content: "",
-			town: user?.town || undefined,
 			phone: user?.phone || undefined,
 		},
 	});
@@ -67,7 +66,6 @@ export default function WishForm() {
 		console.log(val);
 		if (values.town || values.phone) {
 			updateUserFn({
-				town: values.town,
 				phone: values.phone,
 			});
 		}
@@ -77,7 +75,7 @@ export default function WishForm() {
 	const { mutate } = useMutation({
 		mutationFn: (val: WishCreateDTO) => {
 			loadToast("Creating wish", "", 0, "blue");
-			return createWish(val);
+			return createWish(val, user?.jwt || "");
 		},
 		onSuccess: (data) => {
 			if (data !== null) {
@@ -93,7 +91,7 @@ export default function WishForm() {
 
 	const { mutate: updateUserFn } = useMutation({
 		mutationFn: (val: UserUpdateDTO) => {
-			return updateUser(user?.id || "", val);
+			return updateUser(user?.id || "", val, user?.jwt || "");
 		},
 		onSuccess: (data) => {
 			// toast.dismiss();
@@ -125,6 +123,7 @@ export default function WishForm() {
 				<div className="mb-4 flex items-center gap-3">
 					<p className="font-gara italic text-xl text-neutral-700 leading-relaxed px-2 font-semibold">
 						Just let the words flow like water 😊
+
 					</p>
 				</div>
 

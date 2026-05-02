@@ -1,12 +1,12 @@
-import { api, link } from ".";
+import { api, link, conf } from ".";
 import type { User, UserUpdateDTO } from "@/types";
 
 const route = "api/users";
 
 // Get all users
-export const getAllUsers = async () => {
+export const getAllUsers = async (jwt: string ) => {
   try {
-    const res = await api.get(`${link}/${route}`);
+    const res = await api.get(`${link}/${route}`, conf(jwt));
     console.log("message", res.statusText);
     return res.data.data as Array<User>;
   } catch (error) {
@@ -16,9 +16,9 @@ export const getAllUsers = async () => {
 }
 
 // Get a single user by ID
-export const getUserById = async (id: string) => {
+export const getUserById = async (id: string, jwt: string) => {
   try {
-    const res = await api.get(`${link}/${route}/${id}`);
+    const res = await api.get(`${link}/${route}/${id}`, conf(jwt));
     console.log("message", res.statusText);
     return res.data.data as User;
   } catch (error) {
@@ -28,11 +28,11 @@ export const getUserById = async (id: string) => {
 }
 
 // Get me
-export const getMe = async () => {
+export const getMe = async (jwt: string) => {
   try {
     // console.log(link);
     
-    const res = await api.get(`${link}/${route}/me`);
+    const res = await api.get(`${link}/${route}/me`, conf(jwt));
     console.log("message", res.statusText);
     return res.data.data as User;
   } catch (error) {
@@ -42,9 +42,9 @@ export const getMe = async () => {
 }
 
 // Update a user
-export const updateUser = async (id: string, user: Partial<UserUpdateDTO>) => {
+export const updateUser = async (id: string, user: Partial<UserUpdateDTO>, jwt: string) => {
   try {
-    const res = await api.put(`${link}/${route}/${id}`, user);
+    const res = await api.put(`${link}/${route}/${id}`, user, conf(jwt));
     console.log("message", res.statusText);
     return res.data.data as User;
   } catch (error) {
@@ -54,9 +54,9 @@ export const updateUser = async (id: string, user: Partial<UserUpdateDTO>) => {
 }
 
 // Update a user's password
-export const updatePassword = async (id: string, password: string) => {
+export const updatePassword = async (id: string, password: string, jwt: string) => {
   try {
-    const res = await api.put(`${link}/${route}/password/${id}`, { password })
+    const res = await api.put(`${link}/${route}/password/${id}`, { password }, conf(jwt));
     console.log("message", res.statusText);
     return res.data.data as User;
   } catch (error) {
@@ -66,16 +66,12 @@ export const updatePassword = async (id: string, password: string) => {
 }
 
 // Update a user's image
-export const updateImage = async (id: string, image: File) => {
+export const updateImage = async (id: string, image: File, jwt: string) => {
   try {
     const formData = new FormData();
     formData.append("image", image);
 
-    const res = await api.put(`${link}/${route}/image/${id}`, formData, {
-      headers: {
-        "Content-Type": "multipart/form-data",
-      },
-    });
+    const res = await api.put(`${link}/${route}/image/${id}`, formData, conf(jwt));
     console.log("message", res.statusText);
     return res.data.data as User;
   } catch (error) {
@@ -85,9 +81,9 @@ export const updateImage = async (id: string, image: File) => {
 }
 
 // Delete a user by ID
-export const deleteUser = async (id: string) => {
+export const deleteUser = async (id: string, jwt: string) => {
   try {
-    const res = await api.delete(`${link}/${route}/${id}`);
+    const res = await api.delete(`${link}/${route}/${id}`, conf(jwt));
     console.log("message", res.statusText);
     return true;
   } catch (error) {

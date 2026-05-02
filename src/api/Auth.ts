@@ -9,7 +9,10 @@ export const register = async (registerDto: UserCreateDTO) => {
   try {
     const res = await api.post(`${link}/${route}/register`, registerDto)
     console.log('message', res.statusText)
-    return res.data.data as User
+    const user = res.data.data as User;
+		user.jwt = res.data.token;
+		// console.log(res.data);
+		return user;
   } catch (error) {
     console.error('Error:', error)
     if (String(error).includes('409')) {
@@ -24,7 +27,9 @@ export const login = async (loginDto: LoginDTO) => {
   try {
     const res = await api.post(`${link}/${route}/login`, loginDto)
     console.log('message', res.statusText)
-    return res.data.data as User
+    const user = res.data.data as User;
+    user.jwt = res.data.token;
+    return user;
   } catch (error) {
     console.error('Error:', error)
     return null

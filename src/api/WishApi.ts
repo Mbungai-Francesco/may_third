@@ -1,12 +1,12 @@
-import { api, link } from ".";
+import { api, link, conf } from ".";
 import type { Wish, WishCreateDTO, WishUpdateDTO } from "@/types";
 
 const route = "api/wishes";
 
 // Get all wishes
-export const getAllWishes = async () => {
+export const getAllWishes = async (jwt: string) => {
 	try {
-		const res = await api.get(`${link}/${route}`);
+		const res = await api.get(`${link}/${route}`, conf(jwt));
 		console.log("message", res.statusText);
 		return res.data.data as Array<Wish>;
 	} catch (error) {
@@ -16,9 +16,9 @@ export const getAllWishes = async () => {
 }
 
 // Get a single wish by ID
-export const getWishById = async (id: string) => {
+export const getWishById = async (id: string, jwt: string) => {
 	try {
-		const res = await api.get(`${link}/${route}/${id}`);
+		const res = await api.get(`${link}/${route}/${id}`, conf(jwt));
 		console.log("message", res.statusText);
 		return res.data.data as Wish;
 	} catch (error) {
@@ -28,9 +28,9 @@ export const getWishById = async (id: string) => {
 }
 
 // Get sent wishes
-export const getSentWishes = async () => {
+export const getSentWishes = async (jwt: string) => {
 	try {
-		const res = await api.get(`${link}/${route}/mine`);
+		const res = await api.get(`${link}/${route}/mine`, conf(jwt));
 		console.log("message", res.statusText);
 		return res.data.data as Array<Wish>;
 	} catch (error) {
@@ -40,9 +40,9 @@ export const getSentWishes = async () => {
 }
 
 // Get my wishes
-export const getMyWishes = async () => {
+export const getMyWishes = async (jwt: string	) => {
 	try {
-		const res = await api.get(`${link}/${route}/received`);
+		const res = await api.get(`${link}/${route}/received`, conf(jwt));
 		console.log("message", res.statusText);
 		return res.data.data as Array<Wish>;
 	} catch (error) {
@@ -52,9 +52,9 @@ export const getMyWishes = async () => {
 }
 
 // Create a wish
-export const createWish = async (wish: WishCreateDTO) => {
+export const createWish = async (wish: WishCreateDTO, jwt: string) => {
 	try {
-		const res = await api.post(`${link}/${route}`, wish);
+		const res = await api.post(`${link}/${route}`, wish, conf(jwt));
 		console.log("message", res.statusText);
 		return res.data.data as Wish;
 	} catch (error) {
@@ -64,9 +64,9 @@ export const createWish = async (wish: WishCreateDTO) => {
 }
 
 // Update a wish
-export const updateWish = async (id: string, wish: Partial<WishUpdateDTO>) => {
+export const updateWish = async (id: string, wish: Partial<WishUpdateDTO>, jwt: string) => {
 	try {
-		const res = await api.put(`${link}/${route}/${id}`, wish);
+		const res = await api.put(`${link}/${route}/${id}`, wish, conf(jwt));
 		console.log("message", res.statusText);
 		return res.data.data as Wish;
 	} catch (error) {
@@ -76,9 +76,9 @@ export const updateWish = async (id: string, wish: Partial<WishUpdateDTO>) => {
 }
 
 // Delete a wish by ID
-export const deleteWish = async (id: string) => {
+export const deleteWish = async (id: string, jwt: string) => {
 	try {
-		const res = await api.delete(`${link}/${route}/${id}`);
+		const res = await api.delete(`${link}/${route}/${id}`, conf(jwt));
 		console.log("message", res.statusText);
 		return true;
 	} catch (error) {
