@@ -66,8 +66,12 @@ export const createWish = async (wish: WishCreateDTO, jwt: string) => {
 // Update a wish
 export const updateWish = async (id: string, wish: Partial<WishUpdateDTO>, jwt: string) => {
 	try {
+		console.log(wish);
+		
 		const res = await api.put(`${link}/${route}/${id}`, wish, conf(jwt));
 		console.log("message", res.statusText);
+		console.log(res.data.data);
+		
 		return res.data.data as Wish;
 	} catch (error) {
 		console.error('Error:', error);
@@ -78,7 +82,11 @@ export const updateWish = async (id: string, wish: Partial<WishUpdateDTO>, jwt: 
 // React to a wish
 export const reactToWish = async (id: string, reaction: Reaction, jwt: string) => {
 	try {
-		const res = await api.put(`${link}/${route}/${id}`, { reaction }, conf(jwt));
+		const res = await api.put(
+			`${link}/${route}/react/${id}`,
+			{ reaction },
+			conf(jwt),
+		);
 		console.log("message", res.statusText);
 		return res.data.data as Wish;
 	} catch (error) {

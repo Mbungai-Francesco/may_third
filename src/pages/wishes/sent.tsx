@@ -4,7 +4,7 @@ import { loadToast } from "@/lib/loadToast";
 // import { CheckLogin } from '@/lib/checkLogin';
 import { useAuthStore } from "@/store/authStore";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { Edit, MoreVertical, Trash2, X } from "lucide-react";
+import { CheckCheck, Edit, MoreVertical, RefreshCw, Trash2, X } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
 import { toast } from "sonner";
@@ -20,7 +20,7 @@ export const Sent = () => {
 	useEffect(() => {
 		if (!isAuthenticated) navigate("/login");
 		queryClient.invalidateQueries({ queryKey: ["wishes"] });
-	}, );
+	}, [isAuthenticated, navigate, queryClient]);
 	// Fetching values
 	const { isPending, data: wishes } = useQuery({
 		queryKey: ["wishes"],
@@ -54,16 +54,25 @@ export const Sent = () => {
 					Hey{" "}
 					<span className="font-bold text-black">{user?.names || "Moon"}</span>
 				</p>
-				<div
-					onClick={()=>{
-						logout().then(() =>{
-							setUser(null)
-							navigate('/login')
-						}
-						)
-					}}
-				>
-					<X />
+				<div className="flex items-center gap-3">
+					<div
+						className="cursor-pointer"
+						onClick={() => {
+							queryClient.invalidateQueries({ queryKey: ["wishes"] });
+						}}
+					>
+						<RefreshCw />
+					</div>
+					<div
+						onClick={() => {
+							logout().then(() => {
+								setUser(null);
+								navigate("/login");
+							});
+						}}
+					>
+						<X />
+					</div>
 				</div>
 			</div>
 
@@ -76,10 +85,15 @@ export const Sent = () => {
 							key={wish.id}
 							className="bg-white rounded-lg shadow-md p-4 mb-4 relative"
 						>
-							<div className="flex items-start justify-between gap-3">
-								<div onClick={() => navigate(`/wish/${wish.id}`)} className="cursor-pointer">
-									<h3 className="font-bold text-lg">{wish.title}</h3>
-									<p className="text-gray-600">{wish.content}</p>
+							<div className="flex items-start gap-3">
+								<div className="cursor-pointer grow flex justify-between items-center">
+									<div onClick={() => navigate(`/wish/${wish.id}`)}>
+										<h3 className="font-bold text-lg">{wish.title}</h3>
+										<p className="text-gray-600">{wish.content}</p>
+									</div>
+									<CheckCheck className={`
+										${wish.opened ? "text-blue-400 " : ""}
+										self-end`}/>
 								</div>
 								<div className="relative shrink-0">
 									<button
@@ -109,7 +123,11 @@ export const Sent = () => {
 												type="button"
 												onClick={() => {
 													setOpenMenuId(null);
-													if (confirm("Are you sure you want to delete this wish?")) {
+													if (
+														confirm(
+															"Are you sure you want to delete this wish?",
+														)
+													) {
 														deleteWishFn(wish.id);
 													}
 												}}

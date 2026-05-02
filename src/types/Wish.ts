@@ -31,6 +31,7 @@ export interface WishUpdateDTO {
   title: string
   content: string
   town?: string
+  opened?: boolean
 }
 
 export interface ReactDTO {

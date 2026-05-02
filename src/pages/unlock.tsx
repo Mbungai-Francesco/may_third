@@ -34,7 +34,7 @@ export const Unlock = () => {
 			process.env.VITE_CODE ||
 			"";
 
-		if (input.value.toLowerCase() === code.toLowerCase()) {
+		if (input.value.toLowerCase().trim() === code.toLowerCase()) {
 			mutate({ email, password })
 		} else {
 			input.value = "";

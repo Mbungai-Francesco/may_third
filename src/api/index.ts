@@ -1,6 +1,6 @@
 import axios from 'axios'
 
-export const link = import.meta.env.VITE_LINK
+export const link = "http://localhost:5000";
 
 export const conf = (jwt : string) => {
   return {

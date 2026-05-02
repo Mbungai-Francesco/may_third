@@ -9,6 +9,7 @@ import WishForm from "./pages/forms/WishForm";
 import WishUpdateForm from "./pages/forms/WishUpdateForm";
 import DisplaySentWish from "./pages/wishes/DisplayWish";
 import { Received } from "./pages/wishes/received";
+import DisplayRecieved from "./pages/wishes/DisplayRecieved";
 
 export const router = createBrowserRouter([
 	{
@@ -48,10 +49,10 @@ export const router = createBrowserRouter([
 		Component: DisplaySentWish,
 	}
 	,
-	// {
-	// 	path: "/received/:id",
-	// 	Component: DisplaySentWish,
-	// },
+	{
+		path: "/received/:id",
+		Component: DisplayRecieved,
+	},
 	{
 		path: "*",
 		Component: NotFound,

@@ -6,7 +6,7 @@ import { useAuthStore } from "@/store/authStore";
 import { Reaction } from "@/types";
 import type { ReactDTO } from "@/types/Wish";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { Heart, ThumbsDown, ThumbsUp, X } from "lucide-react";
+import { Heart, RefreshCw, ThumbsDown, ThumbsUp, X } from "lucide-react";
 import { useEffect } from "react";
 import { useNavigate } from "react-router";
 import { toast } from "sonner";
@@ -34,7 +34,7 @@ export const Received = () => {
 		},
 		onSuccess: (data) => {
 			if (data !== null) {
-					queryClient.invalidateQueries({ queryKey: ["wishes"] });
+				queryClient.invalidateQueries({ queryKey: ["wishes"] });
 				toast.dismiss();
 				toast.success("Wish reacted to successfully!");
 				navigate(-1); // Go back to previous page
@@ -55,7 +55,8 @@ export const Received = () => {
 		Icon: typeof ThumbsDown,
 		activeClassName: string,
 	) => {
-		const isSelected = wishes?.find((wish) => wish.id === wishId)?.reaction === reaction;
+		const isSelected =
+			wishes?.find((wish) => wish.id === wishId)?.reaction === reaction;
 
 		return (
 			<button
@@ -67,27 +68,45 @@ export const Received = () => {
 						: "border-[#D6C0B8] bg-white text-[#3f2f29] hover:bg-[#F2D8CD]"
 				}`}
 			>
-				<Icon size={16} />
+				<Icon
+					size={16}
+					className={`
+						${label === "Love" && isSelected ? "text-red-500" : ""}
+						${label === "Like" && isSelected ? "text-blue-500" : ""}`}
+				/>
 				{label}
 			</button>
 		);
 	};
 
 	return (
-		<div className="bg-blob h-screen flex flex-col p-6 overflow-y-scroll gap-2">
+		<div
+			className="bg-blob h-screen flex flex-col p-6 overflow-y-scroll gap-2"
+			style={{ minHeight: "100dvh" }}
+		>
 			<div className="flex justify-between items-center">
 				<p className="font-gara font-semibold italic text-2xl text-neutral-700 leading-relaxed px-2">
 					Hey <span className="font-bold text-black">Daniela!</span>
 				</p>
-				<div
-					onClick={() => {
-						logout().then(() => {
-							setUser(null);
-							navigate("/unlock");
-						});
-					}}
-				>
-					<X />
+				<div className="flex items-center gap-3">
+					<div
+						className="cursor-pointer"
+						onClick={() => {
+							queryClient.invalidateQueries({ queryKey: ["wishes"] });
+						}}
+					>
+						<RefreshCw />
+					</div>
+					<div
+						onClick={() => {
+							logout().then(() => {
+								setUser(null);
+								navigate("/unlock");
+							});
+						}}
+					>
+						<X />
+					</div>
 				</div>
 			</div>
 
@@ -101,7 +120,7 @@ export const Received = () => {
 							className="bg-white rounded-lg shadow-md p-4 mb-4"
 						>
 							<div
-								className="cursor-pointer"
+								className="cursor-pointer "
 								onClick={() => navigate(`/received/${wish.id}`)}
 							>
 								<h3 className="font-bold text-lg">{wish.title}</h3>
@@ -137,4 +156,4 @@ export const Received = () => {
 			)}
 		</div>
 	);
-}
+};

@@ -72,6 +72,9 @@ export default function WishUpdateForm() {
       town: values.town,
 		};
 
+    console.log(updateData);
+    
+
 		mutate(updateData);
 	}
 
