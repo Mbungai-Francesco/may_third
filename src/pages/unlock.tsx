@@ -155,7 +155,7 @@ export const Unlock = () => {
 				</button>
 
 				{/* <!-- Signature --> */}
-				<p className="font-vibes text-base italic" style={{ color: "#B38E81" }}>
+				<p className="font-vibes text-xl italic" style={{ color: "#B38E81" }}>
 					We love you
 				</p>
 			</div>
