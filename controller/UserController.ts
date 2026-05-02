@@ -17,6 +17,8 @@ export const getMe = async (req: Request, res: Response) => {
 				role: true,
 				pic: true,
 				password: false,
+				receivedWishes: true,
+				sentWishes: true,
 			},
 		});
 
@@ -116,6 +118,8 @@ export const updateUser = async (req: Request, res: Response) => {
 				role: true,
 				pic: true,
 				password: false,
+				receivedWishes: true,
+				sentWishes: true,
 			},
 		});
 
@@ -156,6 +160,8 @@ export const updatePassword = async (req: Request, res: Response) => {
 				role: true,
 				pic: true,
 				password: false,
+				receivedWishes: true,
+				sentWishes: true,
 			},
 		});
 
@@ -202,6 +208,8 @@ export const uploadImage = async (req: Request, res: Response) =>{
 				role: true,
 				pic: true,
 				password: false,
+				receivedWishes: true,
+				sentWishes: true,
 			},
 		});
 

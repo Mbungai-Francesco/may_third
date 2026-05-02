@@ -30,6 +30,8 @@ export const createUser = async (req: Request, res: Response) => {
 				role: true,
 				pic: true,
 				password: false,
+				receivedWishes: true,
+				sentWishes: true,
 			},
 		});
 
@@ -64,6 +66,8 @@ export const loginUser = async (req: Request, res: Response) => {
 				role: true,
 				pic: true,
 				password: true, // needed for comparison
+				receivedWishes: true,
+				sentWishes: true,
 			},
 		});
 
