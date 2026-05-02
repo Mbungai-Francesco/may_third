@@ -8,7 +8,7 @@ const route = 'api/auth'
 export const register = async (registerDto: UserCreateDTO) => {
   try {
     const res = await api.post(`${link}/${route}/register`, registerDto)
-    console.log('message', res.statusText)
+    // console.log('message', res.statusText)
     const user = res.data.data as User;
 		user.jwt = res.data.token;
 		// console.log(res.data);

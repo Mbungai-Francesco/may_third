@@ -7,7 +7,7 @@ const route = "api/wishes";
 export const getAllWishes = async (jwt: string) => {
 	try {
 		const res = await api.get(`${link}/${route}`, conf(jwt));
-		console.log("message", res.statusText);
+		// console.log("message", res.statusText);
 		return res.data.data as Array<Wish>;
 	} catch (error) {
 		console.error('Error:', error);
@@ -19,7 +19,7 @@ export const getAllWishes = async (jwt: string) => {
 export const getWishById = async (id: string, jwt: string) => {
 	try {
 		const res = await api.get(`${link}/${route}/${id}`, conf(jwt));
-		console.log("message", res.statusText);
+		// console.log("message", res.statusText);
 		return res.data.data as Wish;
 	} catch (error) {
 		console.error('Error:', error);
@@ -31,7 +31,7 @@ export const getWishById = async (id: string, jwt: string) => {
 export const getSentWishes = async (jwt: string) => {
 	try {
 		const res = await api.get(`${link}/${route}/mine`, conf(jwt));
-		console.log("message", res.statusText);
+		// console.log("message", res.statusText);
 		return res.data.data as Array<Wish>;
 	} catch (error) {
 		console.error('Error:', error);
@@ -43,7 +43,7 @@ export const getSentWishes = async (jwt: string) => {
 export const getMyWishes = async (jwt: string	) => {
 	try {
 		const res = await api.get(`${link}/${route}/received`, conf(jwt));
-		console.log("message", res.statusText);
+		// console.log("message", res.statusText);
 		return res.data.data as Array<Wish>;
 	} catch (error) {
 		console.error('Error:', error);
@@ -55,7 +55,7 @@ export const getMyWishes = async (jwt: string	) => {
 export const createWish = async (wish: WishCreateDTO, jwt: string) => {
 	try {
 		const res = await api.post(`${link}/${route}`, wish, conf(jwt));
-		console.log("message", res.statusText);
+		// console.log("message", res.statusText);
 		return res.data.data as Wish;
 	} catch (error) {
 		console.error('Error:', error);
@@ -69,8 +69,8 @@ export const updateWish = async (id: string, wish: Partial<WishUpdateDTO>, jwt: 
 		console.log(wish);
 		
 		const res = await api.put(`${link}/${route}/${id}`, wish, conf(jwt));
-		console.log("message", res.statusText);
-		console.log(res.data.data);
+		// console.log("message", res.statusText);
+		// console.log(res.data.data);
 		
 		return res.data.data as Wish;
 	} catch (error) {
@@ -87,7 +87,7 @@ export const reactToWish = async (id: string, reaction: Reaction, jwt: string) =
 			{ reaction },
 			conf(jwt),
 		);
-		console.log("message", res.statusText);
+		// console.log("message", res.statusText);
 		return res.data.data as Wish;
 	} catch (error) {
 		console.error('Error:', error);
@@ -98,8 +98,8 @@ export const reactToWish = async (id: string, reaction: Reaction, jwt: string) =
 // Delete a wish by ID
 export const deleteWish = async (id: string, jwt: string) => {
 	try {
-		const res = await api.delete(`${link}/${route}/${id}`, conf(jwt));
-		console.log("message", res.statusText);
+		await api.delete(`${link}/${route}/${id}`, conf(jwt));
+		// console.log("message", res.statusText);
 		return true;
 	} catch (error) {
 		console.error('Error:', error);

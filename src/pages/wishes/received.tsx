@@ -1,7 +1,5 @@
 import { logout } from "@/api/Auth";
 import { getMyWishes, reactToWish } from "@/api/WishApi";
-import { loadToast } from "@/lib/loadToast";
-// import { CheckLogin } from '@/lib/checkLogin';
 import { useAuthStore } from "@/store/authStore";
 import { Reaction } from "@/types";
 import type { ReactDTO } from "@/types/Wish";
@@ -9,7 +7,6 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { Heart, RefreshCw, ThumbsDown, ThumbsUp, X } from "lucide-react";
 import { useEffect, useMemo, useState } from "react";
 import { useNavigate } from "react-router";
-import { toast } from "sonner";
 
 export const Received = () => {
 	const queryClient = useQueryClient();
@@ -63,16 +60,16 @@ export const Received = () => {
 		onSuccess: (data) => {
 			if (data !== null) {
 				queryClient.invalidateQueries({ queryKey: ["wishes"] });
-				toast.dismiss();
-				toast.success("Wish reacted to successfully!");
+				// toast.dismiss();
+				// toast.success("Wish reacted to successfully!");
 				navigate(-1); // Go back to previous page
 			} else {
-				loadToast("Warning", "Error reacting to wish", 3000, "red");
+				// loadToast("Warning", "Error reacting to wish", 3000, "red");
 			}
 		},
-		onError: (error) => {
-			loadToast("Warning", "Error reacting to wish", 3000, "red");
-			console.error("Error reacting to wish:", error);
+		onError: () => {
+			// loadToast("Warning", "Error reacting to wish", 3000, "red");
+			// console.error("Error reacting to wish:", error);
 		},
 	});
 

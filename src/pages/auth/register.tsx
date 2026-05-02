@@ -50,7 +50,7 @@ export const Register = () => {
     const val: UserCreateDTO = {
       ...values,
     }
-    console.log(val)
+    // console.log(val)
     mutate(val)
   }
 

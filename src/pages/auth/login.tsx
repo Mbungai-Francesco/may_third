@@ -56,7 +56,7 @@ export const Login = () => {
     const val: LoginDTO = {
       ...values,
     }
-    console.log(val)
+    // console.log(val)
     mutate(val)
   }
 
@@ -67,11 +67,11 @@ export const Login = () => {
     },
     onSuccess: (data) => {
       if (data !== null) {
-				console.log(data);
+				// console.log(data);
 				
         setUser(data)
         toast.dismiss()
-				console.log(data.role === UserRole.CELEBRANT);
+				// console.log(data.role === UserRole.CELEBRANT);
 				
 				if (data.role === UserRole.CELEBRANT) navigate("/received");
 				else navigate("/sent");
