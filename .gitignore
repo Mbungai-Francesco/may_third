@@ -44,5 +44,5 @@ Thumbs.db
 
 .env
 .vercel
-/generated/prisma
+# /generated/prisma
 test-db.ts
