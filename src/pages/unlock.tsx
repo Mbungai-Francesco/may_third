@@ -3,13 +3,12 @@ import { loadToast } from "@/lib/loadToast";
 import { useAuthStore } from "@/store/authStore";
 import { UserRole, type LoginDTO } from "@/types/User";
 import { useMutation } from "@tanstack/react-query";
-import { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
 import { toast } from "sonner";
 
 export const Unlock = () => {
 	const navigate = useNavigate();
-	const { setUser, isAuthenticated } = useAuthStore();
+	const { setUser } = useAuthStore();
 
 
 	const handleSubmit = () => {
